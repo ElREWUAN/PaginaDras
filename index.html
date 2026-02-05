@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecosistema Humanista | Ciencia y Sociedad</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- VARIABLES DE DISEÑO (PALETA INSTITUCIONAL HUMANISTA - NUEVA) --- */
+        :root {
+            --azul-profundo: #0f2c45; /* Autoridad y Ciencia */
+            --azul-claro: #1c3d5a;
+            --verde-vida: #1F6F5C;   /* Sustentabilidad */
+            --turquesa: #2a9d8f;     /* Innovación */
+            --dorado-humanista: #d4a373; /* Humanidades y prestigio */
+            --arena: #f4f1ea;        /* Fondo suave lectura */
+            --blanco: #ffffff;
+            --gris-texto: #333333;
+            --sombra-card: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* --- RESET Y BASE --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            background-color: var(--arena); 
+            color: var(--gris-texto); 
+            overflow-x: hidden; 
+        }
+
+        h1, h2, h3 { font-family: 'Lora', serif; color: var(--azul-profundo); }
+        .accent-text { font-family: 'Cinzel', serif; color: var(--dorado-humanista); letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; font-weight: 700; }
+        
+        p { line-height: 1.8; margin-bottom: 1rem; color: #4a5568; }
+        a { text-decoration: none; transition: 0.3s; }
+
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 2rem; }
+        
+        /* --- BOTONES --- */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .btn-primary { background: var(--turquesa); color: white; }
+        .btn-primary::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 0%; height: 100%;
+            background: var(--verde-vida); transition: 0.3s; z-index: -1;
+        }
+        .btn-primary:hover::after { width: 100%; }
+        
+        .btn-outline { border: 2px solid var(--azul-profundo); color: var(--azul-profundo); margin-left: 10px; }
+        .btn-outline:hover { background: var(--azul-profundo); color: white; }
+
+        /* --- NAVEGACIÓN PRO (ADAPTADA A 11 PUNTOS) --- */
+        .navbar {
+            background: rgba(15, 44, 69, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 0.8rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            color: white;
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            line-height: 1.2;
+        }
+        .logo span { color: var(--turquesa); font-size: 1.5rem; vertical-align: middle; margin-right: 5px; }
+        
+        /* Ajuste para menú de 11 items */
+        .nav-menu { display: flex; gap: 15px; list-style: none; flex-wrap: wrap; justify-content: flex-end; max-width: 85%; }
+        .nav-link { 
+            color: rgba(255,255,255,0.8); font-size: 0.7rem; font-weight: 500; 
+            text-transform: uppercase; letter-spacing: 0.5px; position: relative; 
+        }
+        .nav-link::after {
+            content: ''; display: block; width: 0; height: 2px; background: var(--dorado-humanista); transition: 0.3s; margin-top: 5px;
+        }
+        .nav-link:hover { color: white; }
+        .nav-link:hover::after { width: 100%; }
+
+        /* Hamburger Menu */
+        .hamburger { display: none; cursor: pointer; color: white; font-size: 1.5rem; }
+
+        /* --- HERO SECTION: CINEMÁTICO --- */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(15, 44, 69, 0.9) 0%, rgba(31, 111, 92, 0.8) 100%),
+                        url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop'); 
+            background-size: cover;
+            background-attachment: fixed; 
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            padding-top: 60px;
+        }
+        .hero-content { max-width: 900px; color: white; padding: 2rem; }
+        .hero-subtitle { color: var(--dorado-humanista); font-family: 'Montserrat', sans-serif; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 1rem; display: block;}
+        .hero h1 { font-size: 3.5rem; line-height: 1.1; margin-bottom: 1.5rem; color: white; }
+        .hero p { color: rgba(255,255,255,0.9); font-size: 1.2rem; margin-bottom: 2.5rem; max-width: 700px; margin-left: auto; margin-right: auto; }
+
+        /* --- SECCIÓN ECOSISTEMA (GRID BENTO) --- */
+        .section-padding { padding: 6rem 0; }
+        
+        .section-header { text-align: center; margin-bottom: 4rem; }
+        .section-header h2 { font-size: 2.5rem; margin-bottom: 1rem; }
+        .divider { width: 80px; height: 4px; background: linear-gradient(to right, var(--verde-vida), var(--turquesa)); margin: 0 auto; }
+
+        .ecosistema-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .eco-card {
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: 0.4s;
+            border-bottom: 4px solid transparent;
+            box-shadow: var(--sombra-card);
+            position: relative;
+            overflow: hidden;
+        }
+        .eco-card:hover { transform: translateY(-10px); border-bottom-color: var(--turquesa); }
+        .eco-icon { 
+            font-size: 3rem; 
+            margin-bottom: 1.5rem; 
+            background: linear-gradient(45deg, var(--azul-profundo), var(--turquesa));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .tags-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 15px; }
+        .tag { background: #f0f4f8; padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; color: var(--azul-profundo); font-weight: 600; }
+
+        /* --- EQUIPO DE INVESTIGACIÓN (Diseño Elegante) --- */
+        .team-bg { background-color: white; }
+        .team-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 40px; 
+            margin-top: 3rem; 
+        }
+        /* Convertimos la tarjeta en link manteniendo estilo */
+        .researcher-card {
+            display: block; /* Para que funcione el enlace */
+            background: var(--arena);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--sombra-card);
+            transition: 0.3s;
+            color: inherit; /* Heredar color de texto */
+        }
+        .researcher-img-box {
+            height: 320px;
+            overflow: hidden;
+            position: relative;
+        }
+        .researcher-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.5s;
+        }
+        .researcher-card:hover .researcher-img-box img { transform: scale(1.1); }
+        .researcher-overlay {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: linear-gradient(to top, rgba(15,44,69,0.9), transparent);
+            padding: 20px;
+            color: white;
+            transform: translateY(100px);
+            transition: 0.3s;
+        }
+        .researcher-card:hover .researcher-overlay { transform: translateY(0); }
+        
+        .researcher-info { padding: 2rem; position: relative; z-index: 2; background: white; text-align: center; }
+        .researcher-info h3 { margin-bottom: 5px; font-size: 1.4rem; color: var(--azul-profundo); }
+        .researcher-role { color: var(--turquesa); font-weight: 700; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 10px; display: block; }
+
+        /* --- IMPACTO Y EVIDENCIA (Contadores) --- */
+        .impact-section {
+            background: var(--azul-profundo);
+            color: white;
+            position: relative;
+        }
+        .impact-section::before {
+            content: ''; position: absolute; top:0; left:0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        .stat-item { margin: 20px; flex: 1; min-width: 200px; }
+        .stat-number { font-size: 3.5rem; font-weight: 700; color: var(--turquesa); font-family: 'Montserrat', sans-serif; }
+        .stat-label { font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; color: var(--dorado-humanista); }
+
+        /* --- CLUSTER Y SERVICIOS --- */
+        .cluster-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            background: white;
+            box-shadow: var(--sombra-card);
+            border-radius: 20px;
+            overflow: hidden;
+            margin-top: 2rem;
+        }
+        .cluster-content { padding: 4rem; display: flex; flex-direction: column; justify-content: center; }
+        .cluster-image { 
+            background: url('https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=2070&auto=format&fit=crop') center/cover;
+            min-height: 400px; 
+        }
+        .list-check li { margin-bottom: 10px; list-style: none; display: flex; align-items: center; }
+        .list-check li i { color: var(--verde-vida); margin-right: 10px; }
+
+        /* --- FOOTER --- */
+        footer { background: #0b1e2e; color: #a0aec0; padding: 4rem 0 2rem; font-size: 0.9rem; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 3rem; }
+        .footer-col h4 { color: white; margin-bottom: 1.5rem; font-family: 'Cinzel', serif; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 10px; }
+        .footer-col a { color: #a0aec0; }
+        .footer-col a:hover { color: var(--turquesa); }
+        .social-links a { color: white; font-size: 1.2rem; margin-right: 15px; transition: 0.3s; }
+        .social-links a:hover { color: var(--dorado-humanista); transform: translateY(-3px); display: inline-block; }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .ecosistema-grid { grid-template-columns: 1fr 1fr; }
+            .hero h1 { font-size: 2.8rem; }
+            .nav-menu { display: none; }
+            .hamburger { display: block; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu.active {
+                display: flex;
+                position: fixed;
+                right: 0;
+                top: 0;
+                height: 100vh;
+                width: 80%;
+                max-width: none;
+                flex-direction: column;
+                justify-content: center;
+                background: var(--azul-profundo);
+                text-align: center;
+                transition: 0.3s;
+                padding: 2rem;
+                z-index: 2000;
+            }
+            .ecosistema-grid, .cluster-layout { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2.2rem; }
+            .btn { width: 100%; margin: 10px 0 0 0; text-align: center; }
+        }
+        
+        /* Animación Fade Up */
+        .fade-up { opacity: 0; transform: translateY(40px); transition: 0.8s ease-out; }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-atom"></i> ECOSISTEMA<br>
+                <span style="font-size: 0.7rem; letter-spacing: 2px; color: #ccc;">HUMANISTA</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="#inicio" class="nav-link">Inicio</a></li>
+                <li><a href="#ecosistema" class="nav-link">Ecosistema</a></li>
+                <li><a href="#equipo" class="nav-link">Equipo</a></li>
+                <li><a href="#contacto" class="nav-link" style="color: var(--turquesa);">Contacto</a></li>
+            </ul>
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <header id="inicio" class="hero">
+        <div class="hero-content fade-up">
+            <span class="hero-subtitle">Ciencia · Humanidades · Innovación</span>
+            <h1>Ciencia, educación e innovación con impacto social</h1>
+            <div>
+                <a href="#ecosistema" class="btn btn-primary">Conocer Modelo</a>
+                <a href="#equipo" class="btn btn-outline" style="border-color: white; color: white;">Ver Equipo</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="ecosistema" class="section-padding">
+        <div class="container">
+            <div class="section-header fade-up">
+                <span class="accent-text">Nuestro Modelo</span>
+                <h2>Ecosistema Humanista</h2>
+                <div class="divider"></div>
+                <p style="max-width: 800px; margin: 20px auto;">"Ecosistema interdisciplinario que articula ciencia, tecnología, humanidades y educación para generar innovación con impacto social, desde una visión ética, sostenible y orientada al bien común."</p>
+            </div>
+
+            <div class="ecosistema-grid">
+                <article class="eco-card fade-up">
+                    <div class="eco-icon"><i class="fas fa-microscope"></i></div>
+                    <h3>STEAM / STEAMx</h3>
+                    <p>Ciencia, Tecnología e Innovación Educativa.</p>
+                </article>
+
+                <article class="eco-card fade-up" style="border-bottom-color: var(--verde-vida);">
+                    <div class="eco-icon" style="background: linear-gradient(45deg, var(--verde-vida), #81C784); -webkit-background-clip: text;"><i class="fas fa-users"></i></div>
+                    <h3>Cultura Digital</h3>
+                    <p>Educación, Sociedad y entornos saludables.</p>
+                </article>
+
+                <article class="eco-card fade-up" style="border-bottom-color: var(--dorado-humanista);">
+                    <div class="eco-icon" style="background: linear-gradient(45deg, #bcaaa4, var(--dorado-humanista)); -webkit-background-clip: text;"><i class="fas fa-hands-holding-circle"></i></div>
+                    <h3>Cultura de Paz</h3>
+                    <p>Humanidades, ética y transformación social.</p>
+                </article>
+            </div>
+            
+            <div class="tags-container fade-up" style="margin-top: 40px; justify-content: center;">
+                <span class="tag">Derechos humanos</span>
+                <span class="tag">Equidad de género</span>
+                <span class="tag">Inclusión</span>
+                <span class="tag">Sustentabilidad</span>
+                <span class="tag">Pensamiento sistémico</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="equipo" class="section-padding team-bg">
+        <div class="container">
+            <div class="section-header fade-up">
+                <span class="accent-text">Liderazgo Académico</span>
+                <h2>Grupo de Investigación</h2>
+                <div class="divider"></div>
+                <p>Haz clic en cada perfil para acceder a su sitio personal.</p>
+            </div>
+
+            <div class="team-grid">
+                
+                <a href="https://drsuzelgomezjimenez.netlify.app/" target="_blank" class="researcher-card fade-up">
+                    <div class="researcher-img-box">
+                        <img src="https://i1.rgstatic.net/ii/profile.image/11431281170801853-1687879281621_Q512/Suzel-Gomez.jpg" alt="Dra. Suzel Gómez">
+                        <div class="researcher-overlay">
+                            <p>Especialista en emprendimiento social, auditoría de calidad y transferencia de conocimiento.</p>
+                            <span style="color: var(--dorado-humanista); font-weight: bold; font-size: 0.9rem;">Visitar Sitio <i class="fas fa-external-link-alt"></i></span>
+                        </div>
+                    </div>
+                    <div class="researcher-info">
+                        <span class="researcher-role">Administración y Calidad</span>
+                        <h3>Dra. Suzel Gómez Jiménez</h3>
+                        <p style="font-size: 0.85rem; color: #666;">Auditoría, Gestión de Calidad y Emprendimiento con Propósito.</p>
+                    </div>
+                </a>
+
+                <a href="https://ecosistemahumanista.netlify.app/" target="_blank" class="researcher-card fade-up">
+                    <div class="researcher-img-box">
+                        <img src="https://tse1.mm.bing.net/th/id/OIP.v0bd_LnEmoSkpTBYsZeJ5wHaE7?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Dra. Patricia Arieta">
+                        <div class="researcher-overlay">
+                            <p>Experta en Cultura Digital, innovación pedagógica y entornos virtuales.</p>
+                            <span style="color: var(--dorado-humanista); font-weight: bold; font-size: 0.9rem;">Visitar Sitio <i class="fas fa-external-link-alt"></i></span>
+                        </div>
+                    </div>
+                    <div class="researcher-info">
+                        <span class="researcher-role">Tecnología Educativa</span>
+                        <h3>Dra. Patricia Arieta Melgarejo</h3>
+                        <p style="font-size: 0.85rem; color: #666;">Ecosistema Humanista y Entornos Virtuales de Aprendizaje.</p>
+                    </div>
+                </a>
+
+                <a href="https://www.atom.bio/cienciavivacreativaeincluyente" target="_blank" class="researcher-card fade-up">
+                    <div class="researcher-img-box">
+                        <img src="https://www.uv.mx/personal/yvillagran/files/2024/11/Yaz_2024-2.jpg" alt="Dra. Luz Yazmín Villagrán">
+                        <div class="researcher-overlay">
+                            <p>Investigación centrada en ética aplicada, derechos humanos y políticas públicas.</p>
+                            <span style="color: var(--dorado-humanista); font-weight: bold; font-size: 0.9rem;">Visitar Sitio <i class="fas fa-external-link-alt"></i></span>
+                        </div>
+                    </div>
+                    <div class="researcher-info">
+                        <span class="researcher-role">Humanidades y Sociedad</span>
+                        <h3>Dra. Luz Yazmín Villagrán Villegas</h3>
+                        <p style="font-size: 0.85rem; color: #666;">Investigación en Humanidades, Ética y Cultura.</p>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+
+    <footer id="contacto">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Ecosistema Humanista</h4>
+                    <p>Ciencia aplicada al servicio de la sociedad.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Enlaces Rápidos</h4>
+                    <ul>
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#equipo">Investigadoras</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contacto</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> Xalapa, Veracruz, México</p>
+                    <p><i class="fas fa-envelope"></i> parieta@uv.mx</p>
+                    <p><i class="fas fa-envelope"></i> suzgomez@uv.mx</p>
+                    <p><i class="fas fa-envelope"></i> yvillagran@uv.mx</p>
+                </div>
+            </div>
+            <div style="text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+                <p>&copy; 2025 Ecosistema Humanista de Ciencia, Tecnología e Innovación Social.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 1. Menú Hamburguesa
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-link').forEach(n => n.addEventListener('click', () => {
+            navMenu.classList.remove('active');
+        }));
+
+        // 2. Animación de Scroll (Intersection Observer)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Iniciar contadores si es la sección de impacto
+                    if(entry.target.classList.contains('impact-section') || entry.target.closest('.impact-section')) {
+                        startCounters();
+                    }
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-up, .impact-section').forEach(el => observer.observe(el));
+
+        // 3. Contadores Animados
+        let countersStarted = false;
+        function startCounters() {
+            if(countersStarted) return;
+            countersStarted = true;
+            
+            const counters = document.querySelectorAll('.stat-number');
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const increment = target / 50; 
+                
+                const updateCounter = () => {
+                    const c = +counter.innerText;
+                    if(c < target) {
+                        counter.innerText = Math.ceil(c + increment);
+                        setTimeout(updateCounter, 30);
+                    } else {
+                        counter.innerText = target + (target > 100 ? '+' : '');
+                    }
+                };
+                updateCounter();
+            });
+        }
+    </script>
+</body>
+</html>
